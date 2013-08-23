@@ -22,6 +22,9 @@ Puppet::Type.type(:package).provide(:chocolatey, :parent => Puppet::Provider::Pa
       args = "install", @resource[:name][/\A\S*/], "-version", resource[:ensure], resource[:install_options]
     end
 
+    if @resource[:source]
+      args << "-source" << resource[:source]
+    end
 
     chocolatey(*args)
   end
@@ -33,6 +36,11 @@ Puppet::Type.type(:package).provide(:chocolatey, :parent => Puppet::Provider::Pa
 
   def update
     args = "update", @resource[:name][/\A\S*/], resource[:install_options]
+
+    if @resource[:source]
+      args << "-source" << resource[:source]
+    end
+
     chocolatey(*args)
   end
 
