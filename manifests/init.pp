@@ -8,6 +8,7 @@ class chocolatey (
   class { '::chocolatey::install': } ->
   class { '::chocolatey::config': }
 
+  # todo validate params
 
   #todo: check version of Puppet before this construct.
   contain '::chocolatey::install'
