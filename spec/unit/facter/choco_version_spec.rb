@@ -20,7 +20,6 @@ describe 'choco_version fact', :type => :fact do
     end
 
     context 'with version < 0.9.9' do
-
       before :each do
         Facter::Core::Execution.stubs(:exec).
           with(exec).
@@ -30,11 +29,9 @@ describe 'choco_version fact', :type => :fact do
       it 'should return version' do
         Facter.fact(:choco_version).value.should == '0.9.8.31'
       end
-
     end
 
     context 'with version >= 0.9.9' do
-
       before :each do
         Facter::Core::Execution.stubs(:exec).
           with(exec).
@@ -44,9 +41,19 @@ describe 'choco_version fact', :type => :fact do
       it 'should return version' do
         Facter.fact(:choco_version).value.should == '0.9.9.8'
       end
+    end
+  end
 
+  context 'when chocolatey is not installed' do
+    before :each do
+      ::File.stubs(:exist?).
+        with(chocopath).
+        returns(false)
     end
 
+    it 'should return nil' do
+      Facter.fact(:choco_version).value.should be_nil
+    end
   end
 
   after :each do
