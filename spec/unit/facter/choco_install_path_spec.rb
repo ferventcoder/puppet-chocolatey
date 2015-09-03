@@ -21,7 +21,7 @@ describe 'choco_install_path fact' do
   end
 
   context 'on Linux', :if => Puppet.features.posix? do
-    its(:value) { should eql('C:\ProgramData\chocolatey') }
+    its(:value) { should be_nil }
   end
 
   after :each do
