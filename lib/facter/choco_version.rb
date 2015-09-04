@@ -13,9 +13,6 @@ Facter.add('choco_version') do
       #   0.9.8.31: 'Please run chocolatey /? or chocolatey help - chocolatey v0.9.8.31'
       #   0.9.9.8:  'Chocolatey v0.9.9.8'
       #
-      # The needed version will be found with following regex pattern:
-      #   /[c|C]hocolatey v(.*)$/
-      #
       command = "#{chocopath}\\bin\\choco.exe"
       version_string = Facter::Core::Execution.exec(%Q{#{powershell} -command "#{command}"})
       version = version_string.match(/[c|C]hocolatey v(.*)$/)[1]
