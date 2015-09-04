@@ -1,6 +1,8 @@
 require 'spec_helper'
+require 'rspec/its'
 
 describe 'choco_version fact', :type => :fact do
+  subject(:fact) { Facter.fact(:choco_version) }
 
   before :each do
     Facter.fact(:kernel).stubs(:value).returns('windows')
@@ -14,7 +16,7 @@ describe 'choco_version fact', :type => :fact do
 
   context 'when chocolatey is installed' do
     before :each do
-      ::File.stubs(:exist?).
+      File.stubs(:exist?).
         with(chocopath).
         returns(true)
     end
@@ -46,7 +48,7 @@ describe 'choco_version fact', :type => :fact do
 
   context 'when chocolatey is not installed' do
     before :each do
-      ::File.stubs(:exist?).
+      File.stubs(:exist?).
         with(chocopath).
         returns(false)
     end
