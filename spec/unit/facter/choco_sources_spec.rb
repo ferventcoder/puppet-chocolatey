@@ -84,6 +84,19 @@ EOR
         end
       end
 
+      context 'without sources' do
+        before :each do
+          Facter::Core::Execution.stubs(:exec).
+            returns(<<-EOR
+EOR
+  )
+        end
+
+        it 'should return an empty hash' do
+          Facter.fact(:choco_sources).value.should be_eql({})
+        end
+      end
+
     end
 
     context 'with version < 0.9.9' do
@@ -91,7 +104,7 @@ EOR
         Facter.fact(:choco_version).stubs(:value).returns('0.9.8.31')
       end
 
-      context 'with all sources enabled' do
+      context 'with all sources enabled (we only can see enabled sources)' do
         before :each do
           Facter::Core::Execution.stubs(:exec).
             returns(<<-EOR
@@ -123,8 +136,21 @@ EOR
           )
         end
       end
-    end
 
+      context 'without any sources' do
+        before :each do
+          Facter::Core::Execution.stubs(:exec).
+            returns(<<-EOR
+EOR
+)
+        end
+
+        it 'should return an empty hash' do
+          Facter.fact(:choco_sources).value.should be_eql({})
+        end
+      end
+
+    end
   end
 
   context 'when chocolatey is not installed' do

@@ -31,17 +31,19 @@ Facter.add('choco_sources') do
         end
       else
         # Old choco output processing
-        sources_lines_indexes = (3..-1)
-        sources_lines_array = output_lines_array[sources_lines_indexes]
-        sources_lines_array.each do |source|
-          source_match = source.match(/(.*?[^ ]) +(.*?) *$/)
-          if source_match[1]
-            sources_hash[source_match[1]] = {
-              # Set 'status' to 'Enabled' as we have no way to check if a source is disabled
-              # with the choco command line.
-              'status'   => 'Enabled',
-              'location' => source_match[2],
-            }
+        if output_lines_array.count >= 4
+          sources_lines_indexes = (3..-1)
+          sources_lines_array = output_lines_array[sources_lines_indexes]
+          sources_lines_array.each do |source|
+            source_match = source.match(/(^.*?[^ ]) +(.*?) *$/)
+            if source_match[1]
+              sources_hash[source_match[1]] = {
+                # Set 'status' to 'Enabled' as we have no way to check if a source is disabled
+                # with the choco command line.
+                'status'   => 'Enabled',
+                'location' => source_match[2],
+              }
+            end
           end
         end
       end
