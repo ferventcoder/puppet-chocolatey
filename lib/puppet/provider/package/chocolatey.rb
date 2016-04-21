@@ -39,6 +39,7 @@ Puppet::Type.type(:package).provide(:chocolatey, :parent => Puppet::Provider::Pa
     File.exist?(path)
   end
 
+  #todo move to using common
   def self.chocolatey_command
     if Puppet::Util::Platform.windows?
       #default_location = $::choco_installpath || ENV['ALLUSERSPROFILE'] + '\chocolatey'
@@ -308,6 +309,5 @@ Puppet::Type.type(:package).provide(:chocolatey, :parent => Puppet::Provider::Pa
 
     Puppet::Util::Execution.execute([command(:chocolatey), 'pin','remove', '-n', @resource[:name][/\A\S*/]], :failonfail => false)
   end
-
 
 end
